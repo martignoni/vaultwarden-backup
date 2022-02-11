@@ -75,5 +75,8 @@ fi
 set +e
 
 for dest in "${RCLONE_DESTS[@]}"; do
-    ${RCLONE} -vv --no-check-dest copy "${BACKUP_FILE_PATH}" "${dest}"
+    # Copy backup file to all remotes
+    # ${RCLONE} -vv --no-check-dest copy "${BACKUP_FILE_PATH}" "${dest}"
+    # Sync backup dir with all remotes
+    ${RCLONE} -vv sync "${BACKUP_ROOT}/${BACKUP_FILE_DIR}" "${dest}"
 done
