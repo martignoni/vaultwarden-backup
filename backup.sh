@@ -74,9 +74,20 @@ fi
 # Attempt uploading to all remotes, even if some fail.
 set +e
 
+success=0
 for dest in "${RCLONE_DESTS[@]}"; do
     # Copy backup file to all remotes
-    # ${RCLONE} -vv --no-check-dest copy "${BACKUP_FILE_PATH}" "${dest}"
+    # if ${RCLONE} -vv --no-check-dest copy "${BACKUP_FILE_PATH}" "${dest}"; then
     # Sync backup dir with all remotes
-    ${RCLONE} -vv sync "${BACKUP_ROOT}/${BACKUP_FILE_DIR}" "${dest}"
+    if ${RCLONE} -vv sync "${BACKUP_FILE_DIR}" "${dest}"; then
+        (( success++ ))
+    fi
 done
+
+if [[ ${success} == ${#RCLONE_DESTS[@]} ]]; then
+    echo "Backup successfully copied to all destinations."
+    exit 0
+else
+    echo "Backup successfully copied to ${success} of ${#RCLONE_DESTS[@]} destinations."
+    exit 1
+fi

@@ -16,6 +16,12 @@ general purpose):
    storage services using [rclone](https://rclone.org/). The retention policy
    is configured/managed at the storage service level.
 
+4. Return success when all backup archives are successfully uploaded,
+   or failure if any uploads fail. This allows cron monitoring services like
+   [Healthchecks.io](https://healthchecks.io/), [Cronitor](https://cronitor.io/),
+   or [Dead Man’s Snitch](https://deadmanssnitch.com/) to provide notification
+   of backup failures.
+
 For the most part, I'm not looking for contributions or feature requests, as
 this repo is only intended to implement my own backup requirements. I may be
 willing to make some minor generalizations to make it easier for people to
@@ -49,13 +55,15 @@ If this is an issue, you might consider modifying the script to use
    [supported](https://rclone.org/overview/) by rclone. If you don't have one
    yet, here are a few cloud storage services that offer a free tier:
 
-   * [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) -- 10 GB
-   * [Box](https://www.box.com/pricing/individual) -- 10 GB
-   * [Dropbox](https://www.dropbox.com/basic) -- 2 GB
-   * [Google Drive](https://www.google.com/drive/) -- 15 GB
-   * [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) -- 5 GB
-   * [Oracle Cloud](https://www.oracle.com/cloud/free/) -- 10 GB
-   * [Storj](https://storj.io/) -- 150 GB
+   * [Backblaze B2](https://www.backblaze.com/b2/cloud-storage.html) (10 GB)
+   * [Box](https://www.box.com/pricing/individual) (10 GB)
+   * [Cloudflare R2](https://www.cloudflare.com/products/r2/) (10 GB)
+   * [Dropbox](https://www.dropbox.com/basic) (2 GB)
+   * [Google Drive](https://www.google.com/drive/) (15 GB)
+   * [IDrive e2](https://www.idrive.com/e2/) (10 GB) -- must configure rclone remote with `no_check_bucket = true`
+   * [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) (5 GB)
+   * [Oracle Cloud](https://www.oracle.com/cloud/free/) (10 GB)
+   * [Storj](https://storj.io/) (150 GB)
 
 6. Optionally, a `gpg` (GnuPG 2.x) binary (https://gnupg.org/). This can be
    installed via the `gnupg` package on Debian/Ubuntu or the `gnupg2` package
