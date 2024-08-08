@@ -60,10 +60,8 @@ If this is an issue, you might consider modifying the script to use
    * [Cloudflare R2](https://www.cloudflare.com/products/r2/) (10 GB)
    * [Dropbox](https://www.dropbox.com/basic) (2 GB)
    * [Google Drive](https://www.google.com/drive/) (15 GB)
-   * [IDrive e2](https://www.idrive.com/e2/) (10 GB) -- must configure rclone remote with `no_check_bucket = true`
    * [Microsoft OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage) (5 GB)
    * [Oracle Cloud](https://www.oracle.com/cloud/free/) (10 GB)
-   * [Storj](https://storj.io/) (150 GB)
 
 6. Optionally, a `gpg` (GnuPG 2.x) binary (https://gnupg.org/). This can be
    installed via the `gnupg` package on Debian/Ubuntu or the `gnupg2` package
@@ -112,8 +110,8 @@ If this is an issue, you might consider modifying the script to use
       This can be useful for configuring any tools called from `backup.sh`,
       such as `rclone`.
 
-3. Modify the `backup/crontab` file as needed. This crontab actually calls
-   `cron.sh` to run the backup, rather than calling `backup.sh` directly.
+3. Modify the `backup/crontab.template` file as needed. This crontab actually
+   calls `cron.sh` to run the backup, rather than calling `backup.sh` directly.
    Currently, `cron.sh` captures the output of the current run of `backup.sh`
    to a `backup.log` file. It also saves a copy of this log file, named
    according to whether the backup run was a success or failure. You can add
@@ -137,9 +135,9 @@ If this is an issue, you might consider modifying the script to use
       database file so that operations are faster and backups are smaller.
 
 4. Install the crontab under a user (typically your normal login) that can
-   read your Vaultwarden data. In many cases, running `crontab -e` and
-   pasting in the contents of the crontab file should work. Note that if
-   your cron user doesn't have write permissions to the database, then you
+   read your Vaultwarden data. In many cases, running `crontab -e` and pasting
+   the contents of the filled-in crontab template file should work. Note that
+   if your cron user doesn't have write permissions to the database, then you
    must ensure it has write permissions to the Vaultwarden data directory,
    as SQLite may need to create a `-wal` file for the database if it doesn't
    already exist. If it's unable to do this, the backup will fail with an
@@ -170,7 +168,7 @@ $HOME/vaultwarden/backup
 ├── backup.log
 ├── backup.sh
 ├── cron.sh
-├── crontab
+├── crontab.template
 ├── logs
 │   ├── backup-success-20210101-0000.log
 │   ├── backup-success-20210101-0100.log
